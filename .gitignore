@@ -1,0 +1,39 @@
+# Python 
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Envs
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Caches & tooling
+.pytest_cache/ 
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+
+# Build / dist
+build/
+dist/ 
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Local DB files
+*.sqlite3
+app.db 
+
+# Misc course files 
+*.pptx
