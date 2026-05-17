@@ -81,7 +81,7 @@ Resultado esperado:
 
 El archivo `.env` contiene credenciales reales y está ignorado por Git.
 El archivo `.env.example` se incluye como plantilla publica sin contraseñas reales.
-```
+
 
 ## Calidad de datos 
 
