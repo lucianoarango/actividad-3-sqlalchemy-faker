@@ -82,3 +82,9 @@ Resultado esperado:
 El archivo `.env` contiene credenciales reales y está ignorado por Git.
 El archivo `.env.example` se incluye como plantilla publica sin contraseñas reales.
 ```
+
+## Calidad de datos 
+
+Para el quinto commit se hace una funcion que rectifica que además de existir los 100000
+registros en la tabla personas_luciano, verifica que sean correctos, es decir, sin campos
+vacíos y sin repetidos en columnas especificadas.

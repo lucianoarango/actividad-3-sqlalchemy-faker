@@ -229,6 +229,68 @@ def contar_registros(engine,tabla_personas: Table) -> int:
         
     return total
 
+
+def validad_calidad_datos(engine, table_name):
+    """
+    Valida nuevamente la calidad básica de los datos generados con Faker.
+    Esta función no revisa solo la cantidad de registros, sino que verifica 
+    que no existan campos vacíos y que los correos si sean únicos.
+    """
+
+    consultas = {
+        "nombres_vacios": f"""
+            SELECT COUNT(*)
+            FROM {table_name}
+            WHERE nombre IS NULL OR nombre = ''
+        """,
+        "correos_vacios": f"""
+            SELECT COUNT(*)
+            FROM {table_name}
+            WHERE correo IS NULL OR correo = ''
+        """,
+        "ciudades_vacias": f"""
+            SELECT COUNT(*)
+            FROM {table_name}
+            WHERE ciudad IS NULL OR ciudad = ''
+        """,
+        "fechas_nacimiento_vacias": f"""
+            SELECT COUNT(*)
+            FROM {table_name}
+            WHERE fecha_nacimiento IS NULL
+        """,
+        "correos_duplicados": f"""
+            SELECT COUNT(*)
+            FROM (
+                SELECT correo
+                FROM {table_name}
+                GROUP BY correo
+                HAVING COUNT(*) > 1
+            ) AS duplicados
+        """
+    }
+
+    print("\nValidación de calidad de datos: ")
+
+    with engine.connect() as conn: 
+        errores = 0
+
+        for nombre_validacion, consulta_sql in consultas.items():
+            resultado = conn.execute(text(consulta_sql))
+            total_problemas = resultado.scalar()
+
+            print(f"{nombre_validacion}: {total_problemas}")
+
+            if total_problemas > 0:
+                errores += total_problemas
+    
+    if errores == 0:
+        print("Validacion exitosa: los datos generados cumplen las reglas de calidad.")
+    else: 
+        raise ValueError(
+            f"Se encontraron {errores} problemas de calidad en los datos generados."
+        )
+
+
 def main() -> None: 
     """
     Funcion principal del programa. 
